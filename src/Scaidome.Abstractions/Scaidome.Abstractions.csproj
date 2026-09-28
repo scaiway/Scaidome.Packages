@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Version>1.0.0</Version>
+    <Description>Shared types for exchanging values between Scaidome components (DataValue, StatusCodes, messages). No dependency on the OPC UA SDK.</Description>
+    <PackageTags>scaidome;opcua;opc-ua</PackageTags>
+  </PropertyGroup>
+
+</Project>

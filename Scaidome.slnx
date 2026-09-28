@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Scaidome.Abstractions/Scaidome.Abstractions.csproj" />
+    <Project Path="src/Scaidome.OpcUa.Client/Scaidome.OpcUa.Client.csproj" />
+  </Folder>
+</Solution>
