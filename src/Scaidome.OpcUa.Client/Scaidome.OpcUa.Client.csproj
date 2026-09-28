@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <Version>1.0.0</Version>
+    <Version>1.0.3</Version>
     <Description>OPC UA client for Scaidome, wrapping the OPC Foundation SDK behind a small API that uses Scaidome.Abstractions types.</Description>
     <PackageTags>scaidome;opcua;opc-ua;client</PackageTags>
   </PropertyGroup>
