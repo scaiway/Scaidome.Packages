@@ -18,9 +18,9 @@ jobs:
         with:
           global-json-file: global.json
 
-      - run: dotnet build Scaidome.slnx -c Release
+      - run: dotnet build Scaidome.Packages.slnx -c Release
 
-      - run: dotnet pack Scaidome.slnx -c Release --no-build -o artifacts
+      - run: dotnet pack Scaidome.Packages.slnx -c Release --no-build -o artifacts
 
       - uses: actions/upload-artifact@v4
         with:
