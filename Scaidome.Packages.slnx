@@ -1,6 +1,10 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Scaidome.Abstractions/Scaidome.Abstractions.csproj" />
+    <Project Path="src/Scaidome.Channels/Scaidome.Channels.csproj" />
+    <Project Path="src/Scaidome.Dapper/Scaidome.Dapper.csproj" />
+    <Project Path="src/Scaidome.Json/Scaidome.Json.csproj" />
+    <Project Path="src/Scaidome.Logging/Scaidome.Logging.csproj" />
     <Project Path="src/Scaidome.OpcUa.Client/Scaidome.OpcUa.Client.csproj" />
   </Folder>
 </Solution>

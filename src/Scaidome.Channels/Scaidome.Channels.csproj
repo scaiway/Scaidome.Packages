@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Version>1.0.0</Version>
+    <Description>Action queues for Scaidome: unbounded in-memory queues with many producers and a single draining loop, publishing their counts as metrics.</Description>
+    <PackageTags>scaidome;channels;queue;metrics</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Scaidome.Abstractions\Scaidome.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
