@@ -11,6 +11,10 @@ Monorepo for the Scaidome .NET libraries published to [nuget.org](https://www.nu
 | [`Scaidome.Logging`](src/Scaidome.Logging) | Rolling-file logging provider for `Microsoft.Extensions.Logging` |
 | [`Scaidome.OpcUa.Client`](src/Scaidome.OpcUa.Client) | OPC UA client wrapping the OPC Foundation SDK |
 
+## Tests
+
+Test projects live in [`tests/`](tests), named `<PackageId>.Tests`. `Scaidome.OpcUa.Client` has none yet. Run them all with `dotnet test Scaidome.Packages.slnx`. CI runs them on every push and pull request, and Publish runs them before packing.
+
 ## Releasing
 
 All packages share one version, set by `<Version>` in [`Directory.Build.props`](Directory.Build.props), and are released together.

@@ -7,4 +7,11 @@
     <Project Path="src/Scaidome.Logging/Scaidome.Logging.csproj" />
     <Project Path="src/Scaidome.OpcUa.Client/Scaidome.OpcUa.Client.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Scaidome.Abstractions.Tests/Scaidome.Abstractions.Tests.csproj" />
+    <Project Path="tests/Scaidome.Channels.Tests/Scaidome.Channels.Tests.csproj" />
+    <Project Path="tests/Scaidome.Dapper.Tests/Scaidome.Dapper.Tests.csproj" />
+    <Project Path="tests/Scaidome.Json.Tests/Scaidome.Json.Tests.csproj" />
+    <Project Path="tests/Scaidome.Logging.Tests/Scaidome.Logging.Tests.csproj" />
+  </Folder>
 </Solution>

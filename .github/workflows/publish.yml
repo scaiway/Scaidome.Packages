@@ -34,7 +34,11 @@ jobs:
             exit 1
           fi
 
-      - run: dotnet pack Scaidome.Packages.slnx -c Release -o artifacts
+      - run: dotnet build Scaidome.Packages.slnx -c Release
+
+      - run: dotnet test Scaidome.Packages.slnx -c Release --no-build
+
+      - run: dotnet pack Scaidome.Packages.slnx -c Release --no-build -o artifacts
 
       - name: NuGet login (trusted publishing)
         uses: NuGet/login@v1
