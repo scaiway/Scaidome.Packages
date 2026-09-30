@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <Version>1.0.0</Version>
     <Description>JSON rules for Scaidome typed documents: a codec for settings stored as JSON and a registry of the settings kinds' stored names.</Description>
     <PackageTags>scaidome;json;settings</PackageTags>
   </PropertyGroup>

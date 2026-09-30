@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <Version>1.0.3</Version>
     <Description>Shared types for Scaidome components: values and conversions, declared types, OPC UA status codes, value updates, name rules and a metrics abstraction. No dependency on the OPC UA SDK.</Description>
     <PackageTags>scaidome;opcua;opc-ua;variant;metrics</PackageTags>
   </PropertyGroup>

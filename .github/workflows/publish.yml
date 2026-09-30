@@ -1,11 +1,11 @@
 name: Publish
 
-# Push a tag named <PackageId>/v<Version>, e.g. Scaidome.Abstractions/v1.0.0.
-# The version must match <Version> in the package's csproj.
+# Push a tag named v<Version>, e.g. v1.1.0, to publish every package at that version.
+# The version must match <Version> in Directory.Build.props.
 on:
   push:
     tags:
-      - '*/v*'
+      - 'v*'
 
 permissions:
   contents: read
@@ -24,26 +24,17 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Resolve package from tag
-        id: tag
+      - name: Check tag matches version
         shell: bash
         run: |
-          tag="${GITHUB_REF_NAME}"
-          package="${tag%%/v*}"
-          version="${tag#*/v}"
-          project="src/${package}/${package}.csproj"
-          if [ ! -f "$project" ]; then
-            echo "::error::No project for package '$package' ($project)"
+          version="${GITHUB_REF_NAME#v}"
+          repo_version=$(dotnet msbuild src/Scaidome.Abstractions/Scaidome.Abstractions.csproj -getProperty:Version)
+          if [ "$repo_version" != "$version" ]; then
+            echo "::error::Tag version $version does not match <Version> $repo_version in Directory.Build.props"
             exit 1
           fi
-          project_version=$(dotnet msbuild "$project" -getProperty:Version)
-          if [ "$project_version" != "$version" ]; then
-            echo "::error::Tag version $version does not match <Version> $project_version in $project"
-            exit 1
-          fi
-          echo "project=$project" >> "$GITHUB_OUTPUT"
 
-      - run: dotnet pack "${{ steps.tag.outputs.project }}" -c Release -o artifacts
+      - run: dotnet pack Scaidome.Packages.slnx -c Release -o artifacts
 
       - name: NuGet login (trusted publishing)
         uses: NuGet/login@v1
@@ -51,4 +42,5 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
 
-      - run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
+      # --skip-duplicate lets a failed run be re-run without failing on packages that already went up.
+      - run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
