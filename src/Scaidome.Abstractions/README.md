@@ -40,6 +40,7 @@ epoch, text, JSON, colour, matrix and date-time.
 | `VariantConversion` | Converts a variant or a plain CLR value to a declared kind, or reports failure (`TryConvert`/`Convert`). A value already of the kind is unchanged. A number never converts to a date-time, because the epoch's unit belongs to the interface. |
 | `VariantTextForm` | Writes a value as its text and its kind's name, and reads it back, so the kind survives being stored as text. Reading reports failure, so a record that can't be read can be skipped. Only an exact kind name is accepted, never a number or a list of names. |
 | `VariantJsonConverter` | The JSON form, attached to `Variant`. It drops the kind: read back, a number that fits 32 bits becomes a whole number, other numbers become numbers, strings become text, and objects and arrays become JSON. A refused value is reported as malformed JSON. |
+| `ValueConverter` | Reads a raw device value as a plain `int` or `double`, or reports failure. It produces no variant, so a non-finite double converts and the caller decides what that measurement means. An int truncates toward zero, and a value that does not fit is refused, never wrapped. Text is read in the invariant culture. |
 
 ## Declared types
 
@@ -69,6 +70,7 @@ the name, and an unknown code is returned as hex, e.g. `"0x80FF0000"`.
 |---|---|
 | `DataValue` | A single value update: the address it came from, the value, its status code and timestamps |
 | `DataValueChangedMessage` | A batch of `DataValue`s delivered together, e.g. through a `Channel<DataValueChangedMessage>` |
+| `RawValue` | A value a source read, addressed to the tag it is for and not yet converted: the tag id, the value as a .NET type or `null`, its status code and timestamps |
 
 ```csharp
 public record DataValue(string Address, object? Value, uint StatusCode, DateTime SourceTimestamp, DateTime ServerTimestamp, object Context);
