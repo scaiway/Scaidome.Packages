@@ -8,7 +8,7 @@
   <!-- Package metadata shared by every package in the repo. -->
   <PropertyGroup>
     <!-- One version for every package: they are released together from a single v<Version> tag. -->
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>Nicklas Hammer Thygesen</Authors>
     <Copyright>Copyright (c) 2026 Nicklas Hammer Thygesen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

@@ -29,14 +29,8 @@ internal class Subscription : ISubscription
 
     public async Task<MonitoredNode?> AddMonitoredItemAsync(MonitoredNodeDescriptor node, CancellationToken ct = default)
     {
-        if (InternalSubscription == null)
-            throw new InvalidOperationException("Subscription is not active.");
-
-        var result = AddItem(node);
-
-        await InternalSubscription.ApplyChangesAsync(ct).ConfigureAwait(false);
-
-        return result;
+        var results = await AddMonitoredItemsAsync([node], ct).ConfigureAwait(false);
+        return results[0];
     }
 
     public async Task<MonitoredNode?[]> AddMonitoredItemsAsync(MonitoredNodeDescriptor[] nodes, CancellationToken ct = default)
@@ -49,8 +43,31 @@ internal class Subscription : ISubscription
             results[i] = AddItem(nodes[i]);
 
         await InternalSubscription.ApplyChangesAsync(ct).ConfigureAwait(false);
+        RemoveRefused(results);
 
         return results;
+    }
+
+    // The server refuses an item it can't monitor, such as a node it doesn't have, and never reports on it. Such an item is
+    // removed and answered null, like a node id that won't parse, so the caller can tell it from one awaiting its first value.
+    // Removed from the SDK subscription too, which would otherwise ask the server to create it again on every later change.
+    // No second ApplyChangesAsync: an item never created has nothing on the server to delete, so RemoveItem drops it locally.
+    private void RemoveRefused(MonitoredNode?[] results)
+    {
+        for (int i = 0; i < results.Length; i++)
+        {
+            if (results[i] is not { } node || node.MonitoredItem.Status.Created)
+                continue;
+
+            _logger.LogWarning(
+                "The server refused to monitor {DisplayName} ({NodeId}): {Error}",
+                node.DisplayName,
+                node.NodeId,
+                node.MonitoredItem.Status.Error?.StatusCode.ToString() ?? "no reason given");
+            InternalSubscription!.RemoveItem(node.MonitoredItem);
+            _monitoredItems.Remove(node.Id);
+            results[i] = null;
+        }
     }
 
     // A single malformed NodeId (e.g. wrong namespace index) must not abort the whole batch
