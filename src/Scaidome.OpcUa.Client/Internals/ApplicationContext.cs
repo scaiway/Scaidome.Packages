@@ -47,7 +47,13 @@ internal class ApplicationContext
             CertificatePasswordProvider = new CertificatePasswordProvider(certificatePassword)
         };
 
-        ApplicationConfiguration config = await application.LoadApplicationConfigurationAsync(silent: false).ConfigureAwait(false);
+        // The package copies the configuration next to the application, but the SDK looks for it in the current directory, which
+        // is the project folder under `dotnet run` and System32 for a Windows service. The copy beside the application is used when
+        // it is there; otherwise the SDK's own lookup, so a configuration placed in the current directory still works.
+        var besideApplication = Path.Combine(AppContext.BaseDirectory, configSectionName + ".Config.xml");
+        ApplicationConfiguration config = File.Exists(besideApplication)
+            ? await application.LoadApplicationConfigurationAsync(besideApplication, silent: false).ConfigureAwait(false)
+            : await application.LoadApplicationConfigurationAsync(silent: false).ConfigureAwait(false);
 
         if (renewCertificate)
         {

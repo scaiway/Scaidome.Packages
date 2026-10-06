@@ -1,4 +1,10 @@
 
+# Configuration
+
+The client reads `Scaidome.OpcUa.Client.Config.xml`, which the package copies to the application's output folder. It is read
+from there whatever the current directory is, so an application started elsewhere, by `dotnet run` or as a Windows service,
+finds it. When the output folder has none, the OPC UA SDK looks in the current directory.
+
 # Opc UA Security
 There's different kind of security. 
 - The server authenticates and accepts a client using the clients certificate
